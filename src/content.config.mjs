@@ -14,4 +14,16 @@ const philosophy = defineCollection({
     order:z.number().default(99),
   }),
 });
-export const collections = { philosophy };
+export const collections = { philosophy, mathematics };
+const mathematics = defineCollection({
+  loader: glob({
+    pattern: '**/*.md',
+    base: './src/content/mathematics',
+  }),
+  schema: z.object({
+    title: z.string(),
+    chapter: z.number(),
+    section: z.string(),
+    description: z.string().optional(),
+  }),
+});
