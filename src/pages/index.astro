@@ -3,9 +3,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const links=[['Mathematics','/mathematics/','◈','Structures, ideas & proofs'],['Finance','/finance/','↗','Markets, valuations & analysis'],['Philosophy','/philosophy/','◉','Questions of knowledge & being'],['Projects','/projects/','⬡','Things built and explored'],['Digressions','/digressions/','✎','Scraps, detours & observations'],['Writing','/writing/','✒','Essays and published work']];
 ---
 <BaseLayout title="Home" theme="home"><section class="home-hero" aria-label="Photographic introduction">
-<div class="hero-slide current" style="background-image:linear-gradient(90deg,rgba(17,29,38,.45),rgba(30,32,27,.10)),url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=2200&q=85')"></div>
-<div class="hero-slide" style="background-image:linear-gradient(90deg,rgba(20,26,28,.43),rgba(40,39,35,.08)),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2200&q=85')"></div>
-<div class="hero-slide" style="background-image:linear-gradient(90deg,rgba(20,23,25,.43),rgba(35,33,28,.08)),url('https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=2200&q=85')"></div>
+<div 
+    class="hero-slide current" 
+    style="background-image:linear-gradient(90deg,rgba(20,26,28,.43),rgba(40,39,35,.08)),
+    url('/images/home/an_elephant_in_a_shiva_temple.jpg');
+    background-size: 60%;
+    background-position: 50% 50%;"
+
+></div>
+<div
+  class="hero-slide"
+  style="
+    background-image:
+      linear-gradient(90deg, rgba(17,29,38,.45), rgba(30,32,27,.10)),
+      url('/images/home/elephant_headed.jpg');
+    background-size: 40%;
+    background-position: 50% 50%;
+  "
+></div>
+<div 
+    class="hero-slide" 
+    style="background-image:linear-gradient(90deg,rgba(20,23,25,.43),rgba(35,33,28,.08)),
+    url('/images/home/lotus.jpg');
+    background-size: 40%;
+    background-position: 50% 50%;"
+></div>
 <div class="home-copy"><p class="hero-kicker">A PERSONAL COLLECTION OF IDEAS</p><h1>Karan Chauhan</h1><p>Mathematics, finance, philosophy, projects,<br/>and everything that doesn't fit neatly between them.</p></div>
 <button class="slide-arrow left" aria-label="Previous photograph" data-slide="prev">‹</button><button class="slide-arrow right" aria-label="Next photograph" data-slide="next">›</button>
 <div class="slide-dots" aria-label="Select background photograph">{[0,1,2].map(i=><button class:list={{selected:i===0}} data-index={i} aria-label={`Photograph ${i+1}`} aria-pressed={i===0}></button>)}</div>

@@ -1,32 +1,29 @@
 ---
 import MathematicsLayout from '../layouts/MathematicsLayout.astro';
-import {chapters} from '../data/mathematics.mjs';
+import {getCollection, render} from 'astro:content';
 const {chapter='introduction'} = Astro.props;
-const active=chapters.find(c=>c.slug===chapter)||chapters[0];
+const chapters=(await getCollection('mathematics',({data})=>!data.draft)).sort((a,b)=>a.data.chapter-b.data.chapter);
+const active=chapters.find(c=>c.id===chapter);
+if (!active) throw new Error(`Unknown or draft mathematics chapter: ${chapter}`);
 const index=chapters.indexOf(active);
+const {Content,headings}=await render(active);
+const link=(c)=>c.id==='introduction'?'/mathematics/algebraic-picture/':`/mathematics/algebraic-picture/${c.id}/`;
 ---
 <MathematicsLayout title="The Algebraic Picture" eyebrow="MATHEMATICS / THE ALGEBRAIC PICTURE" description="An exposition of the constructions that make algebraic structures fit together.">
   <div class="math-book-grid">
     <aside class="math-book-toc" aria-label="Book contents">
       <div class="math-toc-label">CONTENTS</div>
-      {chapters.map((c,i)=><a class:list={{current:c.slug===active.slug}} aria-current={c.slug===active.slug?'page':undefined} href={i===0?'/mathematics/algebraic-picture/':`/mathematics/algebraic-picture/${c.slug}/`}><span>{String(i+1).padStart(2,'0')}</span>{c.title}</a>)}
+      {chapters.map((c,i)=><a class:list={{current:c.id===active.id}} aria-current={c.id===active.id?'page':undefined} href={link(c)}><span>{String(i+1).padStart(2,'0')}</span>{c.data.title}</a>)}
+      {headings.length>0&&<div class="math-book-subtoc"><span>ON THIS PAGE</span>{headings.filter(h=>h.depth===2||h.depth===3).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</div>}
       <a class="math-toc-return" href="/mathematics/">← Mathematics library</a>
     </aside>
     <article class="math-book-reading">
-      <p class="math-chapter-label">CHAPTER {index+1} / {active.section.toUpperCase()}</p>
-      <h2>{active.title}</h2>
-      {active.slug==='introduction' ? <>
-        <p>This book is an attempt to develop an interconnected account of algebra, beginning with the language of sets, maps, and the properties that characterize constructions.</p>
-        <p>Rather than presenting groups, rings, and fields as isolated collections of definitions and results, the project asks what constructions persist between these settings, how they arise, and how universal properties clarify their relationships.</p>
-        <div class="math-book-equation">Hom<sub>𝒞</sub>(Z, A × B) ≅ Hom<sub>𝒞</sub>(Z, A) × Hom<sub>𝒞</sub>(Z, B)</div>
-        <p class="math-placeholder-note">Editorial sample introduction. Replace this text with your own introduction when ready. The navigation and chapter structure already work.</p>
-      </> : <>
-        <p>{active.description}</p>
-        <p class="math-placeholder-note">This chapter is a placeholder. Add your own mathematical writing here without changing the book layout or table of contents.</p>
-      </>}
+      <p class="math-chapter-label">CHAPTER {index+1} / {active.data.section.toUpperCase()}</p>
+      <h2>{active.data.title}</h2>
+      <div class="math-md-content"><Content /></div>
       <nav class="math-chapter-nav" aria-label="Chapter navigation">
-        {index>0&&<a href={index===1?'/mathematics/algebraic-picture/':`/mathematics/algebraic-picture/${chapters[index-1].slug}/`}>← {chapters[index-1].title}</a>}
-        {index<chapters.length-1&&<a href={`/mathematics/algebraic-picture/${chapters[index+1].slug}/`}>{chapters[index+1].title} →</a>}
+        {index>0&&<a href={link(chapters[index-1])}>← {chapters[index-1].data.title}</a>}
+        {index<chapters.length-1&&<a href={link(chapters[index+1])}>{chapters[index+1].data.title} →</a>}
       </nav>
     </article>
   </div>

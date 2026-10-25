@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+
 const philosophy = defineCollection({
   loader: glob({pattern:'**/*.md',base:'./src/content/philosophy'}),
   schema: z.object({
@@ -14,16 +15,29 @@ const philosophy = defineCollection({
     order:z.number().default(99),
   }),
 });
-export const collections = { philosophy, mathematics };
 const mathematics = defineCollection({
-  loader: glob({
-    pattern: '**/*.md',
-    base: './src/content/mathematics',
-  }),
+  loader: glob({pattern:'**/*.md',base:'./src/content/mathematics'}),
+  schema: z.object({title:z.string(), chapter:z.number(), section:z.string(), description:z.string().optional(),draft:z.boolean().default(false)}),
+});
+const digressions = defineCollection({
+  loader: glob({pattern:'**/*.md',base:'./src/content/digressions'}),
   schema: z.object({
-    title: z.string(),
-    chapter: z.number(),
-    section: z.string(),
-    description: z.string().optional(),
+    title:z.string(),paper:z.string(),category:z.string(),issue:z.string(),date:z.string(),
+    photo:z.string(),headline:z.string(),dek:z.string(),
+    layout:z.enum(['feature','sidebar','wide']),rotation:z.string(),inkRotation:z.string(),
+    order:z.number(),draft:z.boolean().default(false),
   }),
 });
+const writing = defineCollection({
+  loader: glob({pattern:'**/*.md',base:'./src/content/writing'}),
+  schema:z.object({title:z.string(),date:z.coerce.date(),description:z.string().optional(),draft:z.boolean().default(false)}),
+});
+const finance = defineCollection({
+  loader: glob({pattern:'**/*.md',base:'./src/content/finance'}),
+  schema:z.object({title:z.string(),date:z.coerce.date(),category:z.string().default('Analysis'),description:z.string().optional(),draft:z.boolean().default(false)}),
+});
+const projects = defineCollection({
+  loader: glob({pattern:'**/*.md',base:'./src/content/projects'}),
+  schema:z.object({title:z.string(),category:z.string().default('EXPERIMENTS'),tags:z.array(z.string()).default([]),image:z.string().optional(),summary:z.string(),order:z.number().default(99),draft:z.boolean().default(false)}),
+});
+export const collections = { philosophy, mathematics, digressions, writing, finance, projects };

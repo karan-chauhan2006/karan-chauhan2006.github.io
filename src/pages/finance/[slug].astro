@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {getCollection,render} from 'astro:content';
+export async function getStaticPaths(){
+ const posts=await getCollection('finance',({data})=>!data.draft);
+ return posts.map(post=>({params:{slug:post.id},props:{post}}));
+}
+const {post}=Astro.props;
+const {Content}=await render(post);
+---
+<BaseLayout title={post.data.title} theme="finance">
+ <article class="publishing-reader">
+  <a href="/finance/">← Finance</a>
+  <h1>{post.data.title}</h1>
+  <p class="publishing-meta">{post.data.date.toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'})}</p>
+  <div class="publishing-body"><Content /></div>
+ </article>
+</BaseLayout>

@@ -1,20 +1,23 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import {digressions} from '../../data/digressions.mjs';
+import {getCollection,render} from 'astro:content';
 import '../../styles/digressions-v4.css';
-export function getStaticPaths(){return digressions.map(item=>({params:{slug:item.slug},props:{item}}));}
+export async function getStaticPaths(){
+ const items=await getCollection('digressions',({data})=>!data.draft);
+ return items.map(item=>({params:{slug:item.id},props:{item}}));
+}
 const {item}=Astro.props;
+const {Content}=await render(item);
 ---
-<BaseLayout title={item.title} theme="digressions">
+<BaseLayout title={item.data.title} theme="digressions">
   <div class="scrap-v4-reading">
-    <nav class="scrap-v4-back"><a href="/digressions/">← Back to the pile</a><span>DIGRESSIONS / {item.category.toUpperCase()}</span></nav>
+    <nav class="scrap-v4-back"><a href="/digressions/">← Back to the pile</a><span>DIGRESSIONS / {item.data.category.toUpperCase()}</span></nav>
     <article class="scrap-v4-article">
       <p class="scrap-v4-overline">A NOTE FROM THE MARGINS</p>
-      <h1>{item.title}</h1>
-      <div class="scrap-v4-byline">Karan Chauhan <span>·</span> {item.category}</div>
+      <h1>{item.data.title}</h1>
+      <div class="scrap-v4-byline">Karan Chauhan <span>·</span> {item.data.category}</div>
       <hr/>
-      {item.body.map(paragraph=><p>{paragraph}</p>)}
-      <p class="scrap-v4-sample-note">Sample entry — replace the placeholder text in <code>src/data/digressions.mjs</code> with your own writing.</p>
+      <div class="scrap-v4-md"><Content /></div>
     </article>
     <p class="scrap-v4-back-bottom"><a href="/digressions/">← Return to Digressions &amp; Thoughts</a></p>
   </div>
