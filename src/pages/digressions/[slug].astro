@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {digressions} from '../../data/digressions.mjs';
+import '../../styles/digressions-v4.css';
+export function getStaticPaths(){return digressions.map(item=>({params:{slug:item.slug},props:{item}}));}
+const {item}=Astro.props;
+---
+<BaseLayout title={item.title} theme="digressions">
+  <div class="scrap-v4-reading">
+    <nav class="scrap-v4-back"><a href="/digressions/">← Back to the pile</a><span>DIGRESSIONS / {item.category.toUpperCase()}</span></nav>
+    <article class="scrap-v4-article">
+      <p class="scrap-v4-overline">A NOTE FROM THE MARGINS</p>
+      <h1>{item.title}</h1>
+      <div class="scrap-v4-byline">Karan Chauhan <span>·</span> {item.category}</div>
+      <hr/>
+      {item.body.map(paragraph=><p>{paragraph}</p>)}
+      <p class="scrap-v4-sample-note">Sample entry — replace the placeholder text in <code>src/data/digressions.mjs</code> with your own writing.</p>
+    </article>
+    <p class="scrap-v4-back-bottom"><a href="/digressions/">← Return to Digressions &amp; Thoughts</a></p>
+  </div>
+</BaseLayout>

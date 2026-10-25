@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {digressions} from '../../data/digressions.mjs';
+import '../../styles/digressions-v4.css';
+---
+<BaseLayout title="Digressions & Thoughts" theme="digressions">
+  <div class="scrap-v4">
+    <section class="scrap-v4-intro">
+      <div><p class="scrap-v4-overline">KARAN CHAUHAN / AN ARCHIVE OF INCIDENTAL THOUGHTS</p><h1>Digressions &amp; Thoughts</h1></div>
+      <p>A collection of campus newspapers with a few unnecessary thoughts scribbled in the margins. Some are serious, most are not. Click on a paper to read.</p>
+    </section>
+    <section class="scrap-v4-desk" aria-label="Browse digressions as scattered newspaper front pages">
+      <div class="scrap-v4-pile">
+        {digressions.map((item,index)=><a href={`/digressions/${item.slug}/`} class:list={['scrap-v4-paper',`scrap-v4-paper-${index+1}`]} style={`--sheet-rotate:${item.rotation};--ink-rotate:${item.inkRotation};`} aria-label={`Read ${item.title}`}>
+          <div class="scrap-v4-fiber" aria-hidden="true"></div>
+          <div class="scrap-v4-edition"><span>UNIVERSITY STUDENT NEWSPAPER</span><span>{item.issue}</span></div>
+          <div class="scrap-v4-masthead">{item.paper}</div>
+          <div class="scrap-v4-meta"><span>{item.date}</span><span>IDEAS · CAMPUS · CULTURE</span><span>STUDENT EDITION</span></div>
+          <div class:list={['scrap-v4-lead',`scrap-v4-${item.layout}`]}>
+            {item.layout==='sidebar'&&<h2 class="scrap-v4-printed-head">{item.headline}</h2>}
+            <div class="scrap-v4-photo" style={`background-image:linear-gradient(rgba(225,218,203,.12),rgba(225,218,203,.12)),url('${item.photo}')`}><span class="scrap-v4-written">{item.title}</span></div>
+            {item.layout!=='sidebar'&&<h2 class="scrap-v4-printed-head">{item.headline}</h2>}
+          </div>
+          <div class="scrap-v4-dek">{item.dek}</div>
+          <div class="scrap-v4-columns"><p>From the university edition. Notes and conversations from between lectures, errands, and all the ordinary interruptions.</p><p>The page is only a surface. The words written across it belong to a different story.</p></div>
+          <div class="scrap-v4-foot"><span>{item.category.toUpperCase()}</span><span>READ THE SCRAP ↗</span></div>
+        </a>)}
+      </div>
+    </section>
+    <p class="scrap-v4-disclaimer">These are fictional sample newspaper compositions inspired by student newsprint, not scans of actual newspaper issues. Replace the sample titles and images with your own material.</p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "coverStyle": {
+      "type": "string",
+      "enum": [
+        "triband",
+        "modern-type",
+        "modern-image",
+        "classics-image"
+      ]
+    },
+    "typeVariant": {
+      "type": "string",
+      "enum": [
+        "mint",
+        "grey"
+      ]
+    },
+    "coverColor": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "category": {
+      "default": "Essay",
+      "type": "string"
+    },
+    "excerpt": {
+      "type": "string"
+    },
+    "order": {
+      "default": 99,
+      "type": "number"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "coverStyle"
+  ]
+}

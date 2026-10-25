@@ -1,0 +1,23 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { title='Mathematics', eyebrow='KARAN CHAUHAN / MATHEMATICS', description='A collection of mathematical notes, investigations and academic history.' } = Astro.props;
+---
+<BaseLayout title={title} theme="math">
+  <div class="math-world">
+    <div class="math-scribbles" aria-hidden="true">
+      <div class="ink-margin ink-left"><span>∫<sub>γ</sub> f(z) dz</span><span>φ ∘ ψ = id</span><span>∂²u/∂t² = c²Δu</span><span>ker φ ⊲ G</span><span>π₁(X, x₀)</span><span>∀ ε &gt; 0</span><span>Σ (-1)ⁿ/n²</span><span>Hom(A,B)</span></div>
+      <div class="ink-centre"><span>f : A → B</span><span>∂X</span><span>G / N</span><span>∫ e⁻ˣ² dx</span><span>A × B</span><span>lim fₙ(x)</span><span>∀ x ∈ X</span><span>∑ aₙ zⁿ</span></div>
+      <div class="ink-margin ink-right"><span>∇ × F</span><span>∃! u : Z → P</span><span>0 → ker f → A</span><span>∫∫<sub>Ω</sub> ω</span><span>Spec R</span><span>lim sup aₙ</span><span>ℤ[x] / (p)</span><span>f ∘ g</span></div>
+    </div>
+    <div class="math-world-content">
+      <header class="math-volume-head">
+        <a class="math-volume-back" href="/mathematics/">MATHEMATICS</a>
+        <p>{eyebrow}</p>
+        <h1>{title}</h1>
+        <div class="math-head-rule"></div>
+        <div class="math-volume-desc">{description}</div>
+      </header>
+      <slot />
+    </div>
+  </div>
+</BaseLayout>

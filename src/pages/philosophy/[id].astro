@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhilosophyCover from '../../components/PhilosophyCover.astro';
+import {getCollection,render} from 'astro:content';
+export async function getStaticPaths(){
+  const posts=await getCollection('philosophy');
+  return posts.map(post=>({params:{id:post.id},props:{post}}));
+}
+const {post}=Astro.props;
+const {Content}=await render(post);
+const family=post.data.coverStyle;
+---
+<BaseLayout title={post.data.title} theme="philosophy">
+<div class:list={['ph-reader',`ph-reader-${family}`,post.data.typeVariant&&`ph-reader-${post.data.typeVariant}`]}>
+  <div class="ph-reader-bar"><a href="/philosophy/">← The library</a><span>KARAN CHAUHAN / PHILOSOPHY</span></div>
+  <header class="ph-reader-head"><div class="ph-reader-mini"><PhilosophyCover entry={post}/></div><div class="ph-reader-heading"><span class="ph-reader-series">{family.replaceAll('-',' ').toUpperCase()}</span><h1>{post.data.title}</h1><p class="ph-reader-byline">Karan Chauhan</p><p class="ph-reader-deck">{post.data.excerpt}</p></div></header>
+  <article class="ph-reader-body"><Content /></article>
+  <div class="ph-reader-end"><a href="/philosophy/">← Browse the library</a></div>
+</div>
+</BaseLayout>

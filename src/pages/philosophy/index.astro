@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhilosophyCover from '../../components/PhilosophyCover.astro';
+import { getCollection } from 'astro:content';
+const books = (await getCollection('philosophy')).sort((a,b)=>a.data.order-b.data.order);
+---
+<BaseLayout title="Philosophy" theme="philosophy">
+  <section class="ph-library-head"><p class="eyebrow">KARAN CHAUHAN · AN EXPANDING LIBRARY</p><h1>Philosophy</h1><p>Essays, arguments, reading notes, and questions in progress.</p><div class="ph-library-rule"></div><p class="ph-library-instruction">Four cover families, one library. Select a cover to open its essay.</p></section>
+  <section class="ph-shelf" aria-label="Philosophy essays">
+    {books.map(entry=><a class="ph-shelf-item" href={`/philosophy/${entry.id}/`} aria-label={`Read ${entry.data.title}`}><PhilosophyCover entry={entry}/><div class="ph-shelf-caption"><strong>{entry.data.title}</strong><span>{entry.data.category} · {entry.data.coverStyle.replaceAll('-',' ')}</span></div></a>)}
+  </section>
+  <div class="ph-library-foot">The articles here contain sample text for now. Add or edit the Markdown files in <code>src/content/philosophy/</code> to publish your own work.</div>
+</BaseLayout>

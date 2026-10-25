@@ -1,0 +1,30 @@
+---
+import MathematicsLayout from '../../layouts/MathematicsLayout.astro';
+import {chapters} from '../../data/mathematics.mjs';
+---
+<MathematicsLayout title="Mathematics" eyebrow="NOTES / INVESTIGATIONS / FORMATION" description="A working library of mathematical constructions, research encounters, and the people and courses through which I learned mathematics.">
+  <div class="math-collections">
+    <a href="/mathematics/algebraic-picture/" class="math-collection">
+      <div class="math-collection-number">I. THE BOOK</div>
+      <h2>The Algebraic Picture</h2>
+      <p>A systematic development of algebra, starting with sets, morphisms, and universal properties.</p>
+      <div class="math-collection-list"><span>Contents</span>{chapters.slice(0,5).map(c=><div>{c.title}</div>)}</div>
+      <strong>Open the introduction <span aria-hidden="true">↗</span></strong>
+    </a>
+    <a href="/mathematics/research/" class="math-collection">
+      <div class="math-collection-number">II. THE INVESTIGATIONS</div>
+      <h2>Research &amp; Readings</h2>
+      <p>Papers I have studied, mathematical questions I've pursued, and independent or supervised research.</p>
+      <div class="math-collection-list"><span>Collections</span><div>Paper readings</div><div>Independent investigations</div><div>Research projects</div><div>Ongoing questions</div></div>
+      <strong>Explore the archive <span aria-hidden="true">↗</span></strong>
+    </a>
+    <a href="/mathematics/history/" class="math-collection">
+      <div class="math-collection-number">III. THE RECORD</div>
+      <h2>Mathematical History</h2>
+      <p>A chronological account of what I studied, where, and under whose guidance.</p>
+      <div class="math-collection-list"><span>Record</span><div>University courses</div><div>Course notes &amp; PDFs</div><div>Supervised readings</div><div>Research experience</div></div>
+      <strong>Browse my history <span aria-hidden="true">↗</span></strong>
+    </a>
+  </div>
+  <p class="math-landing-end">Some notes are still being written. This library will grow as the mathematics does.</p>
+</MathematicsLayout>

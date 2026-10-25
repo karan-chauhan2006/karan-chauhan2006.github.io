@@ -1,0 +1,11 @@
+---
+const { entry } = Astro.props;
+const d = entry.data;
+const style=d.coverStyle;
+const isImage=style==='modern-image'||style==='classics-image';
+---
+<div class:list={['ph-book',`ph-${style}`, d.typeVariant&&`ph-${d.typeVariant}`]} style={`--cover-hue:${d.coverColor || '#d0d8d3'}`}>
+  {style==='triband' && <><div class="ph-tri-top"><span>K C · PHILOSOPHY</span></div><div class="ph-tri-center"><span class="ph-tri-author">KARAN CHAUHAN</span><span class="ph-tri-title">{d.title}</span></div><div class="ph-tri-bottom"><span>THE PHILOSOPHY LIBRARY</span><span class="ph-seal">KC</span></div></>}
+  {style==='modern-type' && <><div class="ph-type-top">K C <span>MODERN / PHILOSOPHY</span></div><div class="ph-type-core"><span class="ph-type-author">KARAN<br/>CHAUHAN</span><div class="ph-type-rule"></div><strong class="ph-type-title">{d.title}</strong></div><div class="ph-type-bottom"><span>AN ESSAY</span><span class="ph-seal">KC</span></div></>}
+  {isImage && <><div class="ph-image-area" style={`background-image:url('${d.image || ''}')`} aria-hidden="true"></div>{style==='modern-image' ? <div class="ph-modern-caption"><span class="ph-modern-author">KARAN CHAUHAN</span><strong>{d.title}</strong><span class="ph-imprint">KC / MODERN PHILOSOPHY</span></div> : <><div class="ph-classics-stripe">KARAN CHAUHAN · PHILOSOPHY</div><div class="ph-classics-caption"><span>KARAN CHAUHAN</span><strong>{d.title}</strong><span class="ph-imprint">KC / CLASSICS</span></div></>}</>}
+</div>

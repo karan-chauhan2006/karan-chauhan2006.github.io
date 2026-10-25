@@ -1,0 +1,11 @@
+---
+import MathematicsLayout from '../../../layouts/MathematicsLayout.astro';
+import {projects} from '../../../data/mathematics.mjs';
+---
+<MathematicsLayout title="Research & Readings" eyebrow="MATHEMATICS / RESEARCH ARCHIVE" description="Published papers encountered, independently reconstructed arguments, and mathematical questions pursued in my own work.">
+  <div class="math-inner-paper">
+    <div class="math-section-intro"><h2>Mathematical investigations</h2><p>This is a record of research activity and engagement with mathematical literature. Reading notes, established results, conjectures, and original work will be labelled separately.</p></div>
+    <div class="math-research-list">{projects.map((p,i)=><div class="math-research-entry"><div class="math-research-index">0{i+1} / {p.type}</div><h3>{p.title}</h3><p>{p.description}</p><small>{p.status}</small></div>)}</div>
+    <div class="math-note-callout">This archive currently contains sample entry types rather than claims of completed research. Replace entries in <code>src/data/mathematics.mjs</code> as your work develops.</div>
+  </div>
+</MathematicsLayout>

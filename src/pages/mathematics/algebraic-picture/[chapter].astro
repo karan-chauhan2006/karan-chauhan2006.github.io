@@ -1,0 +1,7 @@
+---
+import MathematicsBook from '../../../components/MathematicsBook.astro';
+import {chapters} from '../../../data/mathematics.mjs';
+export function getStaticPaths(){return chapters.filter(c=>c.slug!=='introduction').map(c=>({params:{chapter:c.slug}}));}
+const {chapter}=Astro.params;
+---
+<MathematicsBook chapter={chapter}/>
