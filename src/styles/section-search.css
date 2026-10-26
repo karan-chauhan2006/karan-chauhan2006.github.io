@@ -1,0 +1,51 @@
+/* Search is intentionally independent of each section's existing design. */
+.site-search {display:flex;align-items:center;gap:12px;max-width:620px;width:100%;margin:20px 0 12px;padding:10px 14px;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 25%,transparent);border-radius:3px;background:transparent;color:inherit;}
+.site-search svg {flex-shrink:0;width:17px;height:17px;opacity:.7}
+.site-search input {flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;color:inherit;}
+.site-search input::placeholder {color:inherit;opacity:.58;}
+.site-search button {background:none;color:inherit;border:0;cursor:pointer;padding:3px 5px;font:inherit;opacity:.75;}
+.site-search button[hidden] {display:none;}
+.site-search-count {font-size:12px;line-height:1.5;opacity:.72;margin:0 0 18px;}
+.site-search-empty {padding:28px 8px;font:inherit;opacity:.75;}
+.site-search-empty[hidden],[data-search-item][hidden] {display:none !important;}
+/* Preserve book covers, the newspaper pile, research entries, and project cards. */
+.ph-search-holder {max-width:760px;margin:0 auto 25px;padding:0 25px;}
+.ph-search-holder .site-search {margin:10px auto;}
+.ph-search-holder .site-search-count {text-align:center;}
+.scrap-v4-search-holder {padding:18px clamp(22px,4vw,72px);background:#eee9df;color:#1b1916;}
+.scrap-v4-search-holder .site-search {margin:0 0 6px;}
+.math-search-holder {margin:10px 0 25px;}
+.projects-search-holder {margin:14px auto 22px;max-width:1000px;padding:0 20px;}
+.projects-search-holder .site-search {margin:0 0 8px;}
+/* Projects: remove the light search section background */
+
+body:has(.projects-search-holder) {
+    background-color: #0e1318;
+}
+
+.projects-search-holder {
+    background-color: #0e1318 !important;
+    color: #f1ede6 !important;
+}
+
+.projects-search-holder .site-search-count,
+.projects-search-holder .site-search-empty {
+    color: #b5bdc7 !important;
+}
+/* Align Projects search bar to the left */
+
+.projects-search-holder {
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+    text-align: left;
+}
+
+.projects-search-holder .site-search {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.projects-search-holder {
+    padding-left: 38px;
+    padding-right: 38px;
+}

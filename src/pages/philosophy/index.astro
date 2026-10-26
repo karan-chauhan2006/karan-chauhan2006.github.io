@@ -2,12 +2,16 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PhilosophyCover from '../../components/PhilosophyCover.astro';
 import { getCollection } from 'astro:content';
+import '../../styles/section-search.css';
 const books = (await getCollection('philosophy')).sort((a,b)=>a.data.order-b.data.order);
 ---
 <BaseLayout title="Philosophy" theme="philosophy">
   <section class="ph-library-head"><p class="eyebrow">KARAN CHAUHAN · AN EXPANDING LIBRARY</p><h1>Philosophy</h1><p>Essays, arguments, reading notes, and questions in progress.</p><div class="ph-library-rule"></div><p class="ph-library-instruction">Four cover families, one library. Select a cover to open its essay.</p></section>
+  <div data-search-root><div class="ph-search-holder"><label class="site-search"><svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16.1 16.1 5 5"/></svg><input data-search-input type="search" autocomplete="off" placeholder="Search books, concepts, and keywords…" aria-label="Search philosophy library"/><button type="button" data-search-clear aria-label="Clear search" hidden>Clear</button></label><p class="site-search-count" data-search-count aria-live="polite"></p><p class="site-search-empty" data-search-empty hidden>No matching entries found.</p></div>
   <section class="ph-shelf" aria-label="Philosophy essays">
-    {books.map(entry=><a class="ph-shelf-item" href={`/philosophy/${entry.id}/`} aria-label={`Read ${entry.data.title}`}><PhilosophyCover entry={entry}/><div class="ph-shelf-caption"><strong>{entry.data.title}</strong><span>{entry.data.category} · {entry.data.coverStyle.replaceAll('-',' ')}</span></div></a>)}
-  </section>
+    {books.map(entry=><a data-search-item data-search-text={`${entry.data.title} ${entry.data.category} ${entry.data.excerpt || ''} ${entry.body || ''}`} class="ph-shelf-item" href={`/philosophy/${entry.id}/`} aria-label={`Read ${entry.data.title}`}><PhilosophyCover entry={entry}/><div class="ph-shelf-caption"><strong>{entry.data.title}</strong><span>{entry.data.category} · {entry.data.coverStyle.replaceAll('-',' ')}</span></div></a>)}
+  </section></div>
   <div class="ph-library-foot">The articles here contain sample text for now. Add or edit the Markdown files in <code>src/content/philosophy/</code> to publish your own work.</div>
 </BaseLayout>
+
+<script>import "../../scripts/section-search.js";</script>

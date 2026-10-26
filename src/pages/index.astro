@@ -33,4 +33,36 @@ const links=[['Mathematics','/mathematics/','◈','Structures, ideas & proofs'],
 <div class="slide-dots" aria-label="Select background photograph">{[0,1,2].map(i=><button class:list={{selected:i===0}} data-index={i} aria-label={`Photograph ${i+1}`} aria-pressed={i===0}></button>)}</div>
 </section><section class="home-index"><p class="index-eyebrow">THE COLLECTION · SELECT A DEPARTMENT</p><div class="home-links">{links.map(([name,url,symbol,description])=><a href={url} class="home-link"><span class="home-icon">{symbol}</span><strong>{name}</strong><small>{description}</small><span class="home-link-arrow">↗</span></a>)}</div></section>
 <script>const slides=[...document.querySelectorAll('.hero-slide')];const dots=[...document.querySelectorAll('.slide-dots button')];let current=0;function show(i){current=(i+slides.length)%slides.length;slides.forEach((s,j)=>s.classList.toggle('current',j===current));dots.forEach((d,j)=>{d.classList.toggle('selected',j===current);d.setAttribute('aria-pressed',String(j===current));});}document.querySelectorAll('[data-slide]').forEach(b=>b.addEventListener('click',()=>show(current+(b.dataset.slide==='next'?1:-1))));dots.forEach(b=>b.addEventListener('click',()=>show(Number(b.dataset.index))));if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){setInterval(()=>show(current+1),7000);}</script>
+<section class="creator-note">
+  <div class="creator-note-inner">
+    <p class="creator-note-label">A NOTE FROM THE CREATOR</p>
+
+    <h2>A word before you wander.</h2>
+
+    <p>Welcome.</p>
+
+    <p>
+      This website is a collection of things I have written,
+      worked on, thought about, and occasionally found too
+      interesting to leave alone.
+    </p>
+
+    <p>
+      Some of it is mathematics. Some of it is philosophy,
+      finance, or writing that doesn't fit neatly into
+      any of those categories.
+    </p>
+
+    <p>
+      There isn't a particular order in which you're supposed
+      to explore it. Pick something that interests you,
+      follow it wherever it goes, and feel free to get
+      lost along the way.
+    </p>
+
+    <p>I hope you find something worth thinking about.</p>
+
+    <p class="creator-signature">— Karan</p>
+  </div>
+</section>
 </BaseLayout>
