@@ -1,18 +1,22 @@
 ---
+import '../../styles/financial-ledger.css';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import LedgerHeader from '../../components/LedgerHeader.astro';
+import {financeDepartments,financeNotice} from '../../data/financialLedger.mjs';
 import {getCollection,render} from 'astro:content';
-export async function getStaticPaths(){
- const posts=await getCollection('finance',({data})=>!data.draft);
- return posts.map(post=>({params:{slug:post.id},props:{post}}));
-}
+export async function getStaticPaths(){const posts=await getCollection('finance',({data})=>!data.draft);return posts.map(post=>({params:{slug:post.id},props:{post}}));}
 const {post}=Astro.props;
 const {Content}=await render(post);
+const department=financeDepartments.find(d=>d.categories.includes(post.data.category));
+const related=post.data.relatedBrief||post.data.relatedReport;
+const relatedPost=related?(await getCollection('finance')).find(p=>p.id===related&&!p.data.draft):null;
 ---
-<BaseLayout title={post.data.title} theme="finance">
- <article class="publishing-reader">
-  <a href="/finance/">← Finance</a>
-  <h1>{post.data.title}</h1>
-  <p class="publishing-meta">{post.data.date.toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'})}</p>
-  <div class="publishing-body"><Content /></div>
- </article>
-</BaseLayout>
+<BaseLayout title={post.data.title} theme="finance"><div class="finance-wrap ledger-wrap"><LedgerHeader section={department?.slug}/>
+<article class="ledger-article"><div class="ledger-article-top"><a href="/finance/">← THE FRONT PAGE</a>{department&&<a href={`/finance/page/${department.number}/`}>P. {department.number} · {department.name} ↗</a>}</div>
+<p class="ledger-kicker">{post.data.category} · {post.data.date.toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'})}</p><h1>{post.data.title}</h1>{post.data.description&&<p class="ledger-article-deck">{post.data.description}</p>}
+{post.data.image&&<img class="ledger-article-image" src={post.data.image} alt="Article illustration"/>}
+{post.data.instrument&&<p class="ledger-instrument">INSTRUMENT: {post.data.instrument}</p>}
+{post.data.modelDate&&<p class="ledger-instrument">MODEL AS OF: {post.data.modelDate.toLocaleDateString('en-CA',{timeZone:'UTC'})}{post.data.modelValue!==undefined?` · MODEL VALUE: ${post.data.modelValue} (units specified in report)`:''}</p>}
+<div class="publishing-body ledger-prose"><Content /></div>
+{relatedPost&&<div class="ledger-related"><p class="ledger-kicker">RELATED RESEARCH</p><a href={`/finance/${relatedPost.id}/`}>{relatedPost.data.title} ↗</a></div>}
+</article><p class="ledger-disclaimer">{financeNotice}</p></div></BaseLayout>

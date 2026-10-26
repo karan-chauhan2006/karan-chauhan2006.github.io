@@ -34,7 +34,7 @@ const writing = defineCollection({
 });
 const finance = defineCollection({
   loader: glob({pattern:'**/*.md',base:'./src/content/finance'}),
-  schema:z.object({title:z.string(),date:z.coerce.date(),category:z.string().default('Analysis'),description:z.string().optional(),draft:z.boolean().default(false)}),
+  schema:z.object({title:z.string(),date:z.coerce.date(),category:z.string().default('Analysis'),description:z.string().optional(),draft:z.boolean().default(false),image:z.string().optional(),keywords:z.array(z.string()).default([]),relatedBrief:z.string().optional(),relatedReport:z.string().optional(),instrument:z.string().optional(),modelDate:z.coerce.date().optional(),modelValue:z.number().optional(),draftNote:z.string().optional()}),
 });
 const projects = defineCollection({
   loader: glob({pattern:'**/*.md',base:'./src/content/projects'}),

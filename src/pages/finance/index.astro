@@ -1,6 +1,45 @@
 ---
+import '../../styles/financial-ledger.css';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import LedgerHeader from '../../components/LedgerHeader.astro';
+import LedgerEmpty from '../../components/LedgerEmpty.astro';
 import {getCollection} from 'astro:content';
-const posts=(await getCollection('finance',({data})=>!data.draft)).sort((a,b)=>b.data.date-a.data.date);
+import {featuredFinanceSlug,financeDepartments,financeNotice} from '../../data/financialLedger.mjs';
+const posts=(await getCollection('finance',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+const feature=featuredFinanceSlug?posts.find(p=>p.id===featuredFinanceSlug):null;
+const desk=posts.slice(0,4);
+const humanDate = d => d.toLocaleDateString('en-CA',{year:'numeric',month:'short',day:'numeric',timeZone:'UTC'});
 ---
-<BaseLayout title="Finance" theme="finance"><div class="finance-wrap"><div class="paper-overline"><span>INDEPENDENT NOTES ON FINANCE</span><span>RESEARCH · VALUATION · MARKETS</span></div><h1 class="finance-masthead">The Financial Ledger</h1><div class="finance-nav"><span>MARKETS</span><span>BUSINESS</span><span>VALUATION</span><span>ANALYSIS</span><span>IDEAS</span></div><div class="finance-grid"><article class="finance-lead"><p class="eyebrow">FEATURED / FINANCIAL ANALYSIS</p><h2>Understanding Business Through Its Numbers</h2><p class="finance-deck">Analysis, valuation, and the questions behind financial statements.</p><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1300&q=85" alt="Market information on a trading screen"/><h3>Markets Are a Story Machine</h3><p>Financial markets are not just mechanisms for pricing assets, but collective story machines—constantly rewriting narratives about the future.</p><span class="coming">Research reports and valuations will appear here as they are published.</span></article><aside class="finance-sidebar"><p class="eyebrow">THE READING DESK</p>{[['Equity Research','Company fundamentals and valuations'],['Financial Statements','How accounting becomes economic information'],['Markets','Notes from the trading floor'],['Quantitative Finance','Models, probabilities, and assumptions']].map(([h,desc])=><div class="finance-teaser"><h3>{h}</h3><p>{desc}</p></div>)}<div class="finance-quote">“Price is what you pay. Value is what you get.”<small>— Warren Buffett</small></div></aside><section class="publishing-list"><h2>Published analyses</h2>{posts.length?posts.map(p=><p><a href={`/finance/${p.id}/`}>{p.data.title} ↗</a> <small>{p.data.category}</small></p>):<p>No analyses published yet. Add one in <code>src/content/finance/</code>.</p>}</section></div></div></BaseLayout>
+<BaseLayout title="The Financial Ledger" theme="finance">
+ <div class="finance-wrap ledger-wrap">
+  <LedgerHeader />
+  <div class="ledger-front">
+   <article class="ledger-feature">
+    <p class="ledger-kicker">LEAD STORY · EDITOR'S SELECTION</p>
+    {feature ? <>
+     <h1><a href={`/finance/${feature.id}/`}>{feature.data.title}</a></h1>
+     {feature.data.description&&<p class="ledger-deck">{feature.data.description}</p>}
+     {feature.data.image&&<a href={`/finance/${feature.id}/`}><img class="ledger-lead-img" src={feature.data.image} alt="Feature article illustration"/></a>}
+     <div class="ledger-feature-meta"><span>{feature.data.category} · {humanDate(feature.data.date)}</span><a href={`/finance/${feature.id}/`}>READ FULL ARTICLE ↗</a></div>
+    </> : <>
+     <h1>No article selected yet.</h1>
+     <p class="ledger-deck">When you publish a financial article, you can choose it for the front page in <code>src/data/financialLedger.mjs</code>.</p>
+     <div class="ledger-hero-rest" aria-label="The lead story is awaiting an editorial selection"><span>THE FEATURE DESK</span></div>
+     <div class="ledger-feature-meta"><span>EDITORIAL SELECTION OPEN</span><span>THE FINANCIAL LEDGER</span></div>
+    </>}
+   </article>
+   <aside class="ledger-reading" aria-label="The Reading Desk">
+    <h2>THE READING DESK</h2><p class="ledger-smallcaps">FOUR MOST RECENT PUBLICATIONS</p>
+    {Array.from({length:4},(_,i)=>desk[i]||null).map((post,i)=><div class="ledger-desk-entry">
+      <div class="ledger-desk-number">{String(i+1).padStart(2,'0')}</div>
+      <div>{post?<><a href={`/finance/${post.id}/`} class="ledger-desk-title">{post.data.title}</a><small>{post.data.category} · {humanDate(post.data.date)}</small></>:<><span class="ledger-desk-title">No recent article</span><small>New research will appear here.</small></>}</div>
+     </div>)}
+   </aside>
+  </div>
+  <section class="ledger-index"><h2>INSIDE THIS PUBLICATION</h2><div class="ledger-index-grid">
+   {financeDepartments.map(d=><a href={`/finance/page/${d.number}/`} class="ledger-index-link"><span>P. {d.number}</span><h3>{d.name}</h3><p>{d.description}</p><small>TURN TO PAGE {d.number} ↗</small></a>)}
+  </div></section>
+  <section class="ledger-bottom"><div><p class="ledger-kicker">THE COMPLETE RECORD</p><h2>Looking for an earlier issue of an idea?</h2><p>Browse every publication, or search by keyword, category, and date.</p></div><a href="/finance/archive/" class="ledger-archive-link">VISIT THE ARCHIVE ↗</a></section>
+  <p class="ledger-disclaimer">{financeNotice}</p>
+ </div>
+</BaseLayout>

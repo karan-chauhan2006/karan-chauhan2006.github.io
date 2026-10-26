@@ -1,0 +1,37 @@
+---
+import '../../../styles/financial-ledger.css';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import LedgerHeader from '../../../components/LedgerHeader.astro';
+import LedgerEmpty from '../../../components/LedgerEmpty.astro';
+import {getCollection} from 'astro:content';
+import {financeDepartments,financeNotice} from '../../../data/financialLedger.mjs';
+const posts=(await getCollection('finance',({data})=>!data.draft)).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+const humanDate = d => d.toLocaleDateString('en-CA',{year:'numeric',month:'short',day:'numeric',timeZone:'UTC'});
+---
+<BaseLayout title="Archive — The Financial Ledger" theme="finance"><div class="finance-wrap ledger-wrap">
+<LedgerHeader section="archive"/>
+<div class="ledger-section-head"><p class="ledger-kicker">ARCHIVE · SEARCH · EXPLORE</p><h1>Archive</h1><p>Find financial research by keyword, publication date, or department.</p></div>
+<div class="ledger-filters" id="ledgerFilters"><label>SEARCH ARTICLES<input type="search" id="ledgerQuery" placeholder="Title, subject, keyword..."/></label><label>DEPARTMENT<select id="ledgerCategory"><option value="">All departments</option>{financeDepartments.map(d=><option value={d.categories[0]}>{d.name}</option>)}</select></label><label>FROM<input type="date" id="ledgerStart"/></label><label>TO<input type="date" id="ledgerEnd"/></label><label>SORT BY<select id="ledgerSort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="title">Title A–Z</option></select></label></div>
+<div id="ledgerResults" class="ledger-section-list">{posts.map(p=><article class="ledger-list-article" data-ledger-post data-date={p.data.date.toISOString().slice(0,10)} data-title={p.data.title.toLowerCase()} data-category={p.data.category} data-search={[p.data.title,p.data.description||'',p.data.category,...p.data.keywords, ('body' in p && typeof p.body === 'string')? p.body : ''].join(' ').toLowerCase()}><div class="ledger-list-meta">{humanDate(p.data.date)} · {p.data.category}</div><h2><a href={`/finance/${p.id}/`}>{p.data.title}</a></h2>{p.data.description&&<p>{p.data.description}</p>}<a href={`/finance/${p.id}/`}>READ ARTICLE ↗</a></article>)}</div>
+<p id="ledgerNone" class="ledger-empty" hidden>No articles match those filters.</p>
+{posts.length===0&&<LedgerEmpty heading="No articles yet." message="Your archive will populate automatically as you publish finance research."/>}
+<div class="ledger-crosslinks"><a href="/finance/">← FRONT PAGE</a></div><p class="ledger-disclaimer">{financeNotice}</p>
+</div>
+<script>
+ const root=document.querySelector('#ledgerFilters');
+ if(root){
+  const get=id=>document.getElementById(id);
+  const query=get('ledgerQuery'),category=get('ledgerCategory'),start=get('ledgerStart'),end=get('ledgerEnd'),sort=get('ledgerSort'),results=get('ledgerResults'),none=get('ledgerNone');
+  const cards=Array.from(results.querySelectorAll('[data-ledger-post]'));
+  function refresh(){
+   const q=query.value.trim().toLowerCase(), cat=category.value, lo=start.value,hi=end.value;
+   let count=0;
+   cards.forEach(card=>{const d=card.dataset.date||'',match=(!q||(card.dataset.search||'').includes(q))&&(!cat||card.dataset.category===cat)&&(!lo||d>=lo)&&(!hi||d<=hi);card.hidden=!match;if(match)count++;});
+   const visible=cards.filter(c=>!c.hidden);
+   visible.sort((a,b)=>sort.value==='title'?(a.dataset.title||'').localeCompare(b.dataset.title||''):sort.value==='old'?(a.dataset.date||'').localeCompare(b.dataset.date||''):(b.dataset.date||'').localeCompare(a.dataset.date||''));
+   visible.forEach(c=>results.append(c));none.hidden=count!==0||cards.length===0;
+  }
+  root.addEventListener('input',refresh);root.addEventListener('change',refresh);
+ }
+</script>
+</BaseLayout>

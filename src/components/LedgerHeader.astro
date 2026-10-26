@@ -1,0 +1,11 @@
+---
+import {financeDepartments} from '../data/financialLedger.mjs';
+const {section=''}=Astro.props;
+---
+<div class="ledger-overline"><span>INDEPENDENT FINANCIAL RESEARCH</span><span>IDEAS · MODELS · MARKETS</span></div>
+<a class="ledger-masthead" href="/finance/">The Financial Ledger</a>
+<nav class="ledger-nav" aria-label="Financial Ledger sections">
+ {financeDepartments.map(d=><a class:list={{selected:section===d.slug}} href={`/finance/page/${d.number}/`}>P. {d.number} <span>{d.name}</span></a>)}
+ <a class:list={{selected:section==='archive'}} href="/finance/archive/">ARCHIVE</a>
+</nav>
+<div class="ledger-edition"><span>A PERSONAL PUBLICATION BY KARAN CHAUHAN</span><span>DIGITAL EDITION</span></div>

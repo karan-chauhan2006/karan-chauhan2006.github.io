@@ -1,0 +1,18 @@
+---
+import '../../../styles/financial-ledger.css';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import LedgerHeader from '../../../components/LedgerHeader.astro';
+import LedgerEmpty from '../../../components/LedgerEmpty.astro';
+import {financeDepartments,financeNotice} from '../../../data/financialLedger.mjs';
+import {getCollection} from 'astro:content';
+export function getStaticPaths(){return financeDepartments.map(department=>({params:{number:department.number},props:{department}}));}
+const {department}=Astro.props;
+const posts=(await getCollection('finance',({data})=>!data.draft && department.categories.includes(data.category))).sort((a,b)=>b.data.date.getTime()-a.data.date.getTime());
+const humanDate = d => d.toLocaleDateString('en-CA',{year:'numeric',month:'short',day:'numeric',timeZone:'UTC'});
+---
+<BaseLayout title={`${department.name} — The Financial Ledger`} theme="finance"><div class="finance-wrap ledger-wrap">
+<LedgerHeader section={department.slug}/>
+<div class="ledger-section-head"><p class="ledger-kicker">SECTION PAGE · P. {department.number}</p><h1>{department.name}</h1><p>{department.description}</p></div>
+{posts.length?<div class="ledger-section-list">{posts.map(p=><article class="ledger-list-article"><div class="ledger-list-meta">{humanDate(p.data.date)} · {p.data.category}</div><h2><a href={`/finance/${p.id}/`}>{p.data.title}</a></h2>{p.data.description&&<p>{p.data.description}</p>}<a href={`/finance/${p.id}/`}>CONTINUE READING ↗</a></article>)}</div>:<LedgerEmpty heading={`No ${department.name.toLowerCase()} published yet.`} message="This department will fill with your research when you publish an article in its category."/>}
+<div class="ledger-crosslinks"><a href="/finance/">← FRONT PAGE</a><a href="/finance/archive/">COMPLETE ARCHIVE ↗</a></div><p class="ledger-disclaimer">{financeNotice}</p>
+</div></BaseLayout>
