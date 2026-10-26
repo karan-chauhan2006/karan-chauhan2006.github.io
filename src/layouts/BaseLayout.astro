@@ -9,4 +9,7 @@ const links=[['Home','/'],['Mathematics','/mathematics/'],['Finance','/finance/'
 <meta name="description" content={description}/><title>{title==='Home'?'Karan Chauhan':`${title} — Karan Chauhan`}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-</head><body><header class="site-header"><a class="brand" href="/">Karan Chauhan</a><nav aria-label="Main navigation">{links.map(([name,url])=><a href={url} class:list={{active:(url==='/'?Astro.url.pathname==='/':Astro.url.pathname.startsWith(url))}}>{name}</a>)}</nav><span class="nav-mark" aria-hidden="true">✳</span></header><main><slot /></main><footer class="site-footer"><span>Karan Chauhan · A collection in progress</span><a href="/">Back to the beginning ↑</a></footer></body></html>
+</head><body><header class="site-header"><a class="brand" href="/">Karan Chauhan</a><nav aria-label="Main navigation">{links.map(([name,url])=><a href={url} class:list={{active:(url==='/'?Astro.url.pathname==='/':Astro.url.pathname.startsWith(url))}}>{name}</a>)}</nav><span class="nav-mark" aria-hidden="true">✳</span></header><main><slot /></main>
+<footer class="site-footer"><span>Karan Chauhan · A collection in progress</span><a href="mailto:karan.chauahnn2006@gmail.com">
+  Email me
+</a><a href="/">Back to the beginning ↑</a></footer></body></html>
