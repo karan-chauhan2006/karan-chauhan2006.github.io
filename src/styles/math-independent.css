@@ -1,0 +1,11 @@
+/* Independent mathematics articles retain the site's existing math visual identity. */
+.math-independent-article .math-md-content{font:16px/1.95 'Libre Baskerville',Georgia,serif;max-width:840px;margin:32px auto 60px}
+.math-independent-article .math-md-content h1{display:block;font:normal clamp(28px,4vw,42px) 'Playfair Display',Georgia,serif;margin:22px 0}
+.math-independent-article .math-md-content h2{font:normal 26px 'Playfair Display',Georgia,serif;margin:38px 0 14px}
+.math-independent-article .math-md-content img{max-width:100%;height:auto}
+.math-independent-article .math-md-content a,.math-history-intro a{color:#65513c;text-decoration:underline;text-underline-offset:3px}
+.math-independent-back{font:12px 'DM Sans',sans-serif;color:#65513c;text-decoration:underline;text-underline-offset:4px}
+.math-independent-meta{font:11px 'DM Sans',sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#7a6857;margin:18px 0}
+.math-research-entry h3 a{color:inherit;text-decoration:none}
+.math-research-entry h3 a:hover,.math-research-entry h3 a:focus-visible{text-decoration:underline;text-underline-offset:4px}
+.math-history-intro .math-md-content p{font-size:14px}

@@ -1,16 +1,29 @@
 ---
 import MathematicsLayout from '../../../layouts/MathematicsLayout.astro';
-import {projects} from '../../../data/mathematics.mjs';
+import { getCollection } from 'astro:content';
 import '../../../styles/section-search.css';
+const entries = (await getCollection('mathematicalResearch', ({ data }) => !data.draft))
+  .sort((a,b) => a.data.order - b.data.order || (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0) || a.data.title.localeCompare(b.data.title));
 ---
 <MathematicsLayout title="Research & Readings" eyebrow="MATHEMATICS / RESEARCH ARCHIVE" description="Published papers encountered, independently reconstructed arguments, and mathematical questions pursued in my own work.">
   <div class="math-inner-paper">
-    <div class="math-section-intro"><h2>Mathematical investigations</h2><p>This is a record of research activity and engagement with mathematical literature. Reading notes, established results, conjectures, and original work will be labelled separately.</p></div>
-    <div data-search-root><div class="math-search-holder"><label class="site-search"><svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16.1 16.1 5 5"/></svg><input data-search-input type="search" autocomplete="off" placeholder="Search mathematical research titles…" aria-label="Search mathematical research"/><button type="button" data-search-clear aria-label="Clear search" hidden>Clear</button></label><p class="site-search-count" data-search-count aria-live="polite"></p><p class="site-search-empty" data-search-empty hidden>No matching entries found.</p></div>
-    <div class="math-research-list">{projects.map((p,i)=><div data-search-item data-search-text={`${p.title} ${p.type} ${p.description} ${p.status}`} class="math-research-entry"><div class="math-research-index">0{i+1} / {p.type}</div><h3>{p.title}</h3><p>{p.description}</p><small>{p.status}</small></div>)}</div>
+    <div class="math-section-intro"><h2>Mathematical investigations</h2><p>Research activity and engagement with mathematical literature. Reading notes, established results, conjectures, and original work are labelled separately.</p></div>
+    <div data-search-root>
+      <div class="math-search-holder">
+        <label class="site-search"><svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16.1 16.1 5 5"/></svg><input data-search-input type="search" autocomplete="off" placeholder="Search mathematical research titles…" aria-label="Search mathematical research"/><button type="button" data-search-clear aria-label="Clear search" hidden>Clear</button></label>
+        <p class="site-search-count" data-search-count aria-live="polite"></p>
+        <p class="site-search-empty" data-search-empty hidden>No matching entries found.</p>
+      </div>
+      <div class="math-research-list">
+        {entries.map((entry,i) => <article class="math-research-entry" data-search-item data-search-text={`${entry.data.title} ${entry.data.type} ${entry.data.description} ${entry.data.status}`}>
+          <div class="math-research-index">{String(i+1).padStart(2,'0')} / {entry.data.type}</div>
+          <h3><a href={`/mathematics/research/${entry.id}/`}>{entry.data.title} ↗</a></h3>
+          {entry.data.description && <p>{entry.data.description}</p>}
+          <small>{entry.data.status}{entry.data.date ? ` · ${entry.data.date.toLocaleDateString('en-CA',{timeZone:'UTC',year:'numeric',month:'long',day:'numeric'})}` : ''}</small>
+        </article>)}
+        {entries.length === 0 && <p class="math-research-empty">No research notes have been published yet. Add a Markdown file to <code>src/content/math-research/</code> to publish the first one.</p>}
+      </div>
     </div>
-    <div class="math-note-callout">This archive currently contains sample entry types rather than claims of completed research. Replace entries in <code>src/data/mathematics.mjs</code> as your work develops.</div>
   </div>
 </MathematicsLayout>
-
 <script>import "../../../scripts/section-search.js";</script>

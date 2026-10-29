@@ -1,13 +1,30 @@
 ---
 import MathematicsLayout from '../../../layouts/MathematicsLayout.astro';
-import {history} from '../../../data/mathematics.mjs';
+import '../../../styles/math-independent.css';
+import { getCollection, getEntry, render } from 'astro:content';
+const entries = (await getCollection('mathematicalHistory', ({data}) => !data.draft))
+  .sort((a,b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+const grouped = new Map();
+for (const entry of entries) {
+  const group = grouped.get(entry.data.period) ?? [];
+  group.push(entry);
+  grouped.set(entry.data.period, group);
+}
+const intro = await getEntry('mathematicalHistoryIntro', 'overview');
+const introView = intro ? await render(intro) : null;
 ---
 <MathematicsLayout title="Mathematical History" eyebrow="MATHEMATICS / ACADEMIC CHRONOLOGY" description="The mathematics I studied, the courses I took, and the people under whose guidance I learned.">
   <div class="math-inner-paper">
-    <div class="math-section-intro"><h2>An academic record</h2><p>A history of formal coursework, supervised and independent readings, and research work. Course codes become downloadable links when my own notes are available.</p></div>
-    {history.map(group=><section class="math-history-period"><h3>{group.period}</h3><div class="math-history-items">{group.entries.map(entry=><div class="math-history-item"><div class="math-history-row">{entry.notes?<a class="math-course-name" href={entry.notes} download>{entry.code} — {entry.name} <span aria-hidden="true">↓</span></a>:<span class="math-course-name">{entry.code} — {entry.name}</span>}{entry.notes&&<span class="math-pdf-label">PDF NOTES</span>}</div><p>{entry.institution}{entry.instructor&&<> · Instructor: {entry.instructor}</>}</p></div>)}</div></section>)}
-    <section class="math-history-period math-history-extra"><h3>Supervised reading courses</h3><p>Entries will appear here when dates, supervisors, and material studied are ready to publish.</p></section>
-    <section class="math-history-period math-history-extra"><h3>Research experience</h3><p>Research appointments or projects can be recorded here with supervisors and links to fuller write-ups in Research &amp; Readings.</p></section>
-    <div class="math-note-callout">To attach your own PDF notes, place the file inside <code>public/notes/</code> and set a course's <code>notes</code> field to a path such as <code>/notes/MAT347.pdf</code>. Unavailable notes are deliberately not linked.</div>
+    <div class="math-section-intro"><h2>An academic record</h2>
+      {introView ? <div class="math-history-intro math-md-content"><introView.Content /></div> : <p>A history of coursework, readings, and mathematical research.</p>}
+    </div>
+    {Array.from(grouped, ([period, items]) => <section class="math-history-period"><h3>{period}</h3>
+      <div class="math-history-items">{items.map(entry => <div class="math-history-item">
+        <div class="math-history-row"><a class="math-course-name" href={`/mathematics/history/${entry.id}/`}>{entry.data.code ? `${entry.data.code} — ` : ''}{entry.data.title} ↗</a>
+          {entry.data.notes && <a class="math-pdf-label" href={entry.data.notes}>PDF NOTES ↓</a>}</div>
+        <p>{entry.data.institution}{entry.data.instructor && ` · Instructor: ${entry.data.instructor}`}</p>
+      </div>)}</div>
+    </section>)}
+    {entries.length === 0 && <p>No entries yet. Add a Markdown file to <code>src/content/math-history/</code>.</p>}
   </div>
 </MathematicsLayout>

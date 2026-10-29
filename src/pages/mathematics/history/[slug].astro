@@ -1,0 +1,19 @@
+---
+import MathematicsLayout from '../../../layouts/MathematicsLayout.astro';
+import '../../../styles/math-independent.css';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+ const entries = await getCollection('mathematicalHistory', ({data})=>!data.draft);
+ return entries.map(entry => ({params:{slug:entry.id},props:{entry}}));
+}
+const {entry}=Astro.props;
+const {Content}=await render(entry);
+---
+<MathematicsLayout title={entry.data.code ? `${entry.data.code} — ${entry.data.title}` : entry.data.title} eyebrow="MATHEMATICS / ACADEMIC HISTORY" description={`${entry.data.period} · ${entry.data.institution}`}>
+ <article class="math-inner-paper math-independent-article">
+   <a class="math-independent-back" href="/mathematics/history/">← Mathematical History</a>
+   {entry.data.instructor && <p class="math-independent-meta">Instructor: {entry.data.instructor}</p>}
+   {entry.data.notes && <p><a href={entry.data.notes}>Download course notes (PDF) ↓</a></p>}
+   <div class="math-md-content"><Content /></div>
+ </article>
+</MathematicsLayout>
