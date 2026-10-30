@@ -5,6 +5,7 @@ coverColor: "#df7442"
 category: "Epistemology"
 order: 1
 excerpt: "A sample entry demonstrating the cover and reading layout. Replace this text with your essay."
+draft: true
 ---
 
 # A note before beginning

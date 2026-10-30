@@ -1,6 +1,6 @@
 // Choose the main front-page article by its Markdown filename (without .md).
 // Set to null to display the editorial empty state; publishing new articles does not change this.
-export const featuredFinanceSlug = null;
+export const featuredFinanceSlug = 'ant_initial_position';
 
 export const financeDepartments = [
  {slug:'quantitative-research',number:'12',name:'Quantitative Research',description:'Regressions, volatility models, backtests, and investment strategies.',categories:['Quantitative Research'],filters:['Regression','Backtesting','Volatility','Strategy']},

@@ -5,6 +5,7 @@ coverColor: "#296b70"
 category: "Methods"
 order: 2
 excerpt: "A sample entry demonstrating the cover and reading layout. Replace this text with your essay."
+draft: true
 ---
 
 # A note before beginning

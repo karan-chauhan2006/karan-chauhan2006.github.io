@@ -11,6 +11,7 @@ layout: "sidebar"
 rotation: "3deg"
 inkRotation: "-7deg"
 order: 2
+draft: true
 ---
 
 > **Sample digression:** Replace the text below with your own writing before publication.

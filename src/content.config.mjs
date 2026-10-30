@@ -13,6 +13,7 @@ const philosophy = defineCollection({
     category:z.string().default('Essay'),
     excerpt:z.string().optional(),
     order:z.number().default(99),
+    draft: z.boolean().optional().default(false),
   }),
 });
 const mathematics = defineCollection({
@@ -26,6 +27,7 @@ const digressions = defineCollection({
     photo:z.string(),headline:z.string(),dek:z.string(),
     layout:z.enum(['feature','sidebar','wide']),rotation:z.string(),inkRotation:z.string(),
     order:z.number(),draft:z.boolean().default(false),
+    draft: z.boolean().optional().default(false),
   }),
 });
 const writing = defineCollection({

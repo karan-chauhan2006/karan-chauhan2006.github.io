@@ -6,6 +6,7 @@ category: "Ethics"
 order: 6
 image: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=85"
 excerpt: "A sample entry demonstrating the cover and reading layout. Replace this text with your essay."
+draft: true
 ---
 
 # A note before beginning

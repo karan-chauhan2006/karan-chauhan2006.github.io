@@ -6,6 +6,7 @@ category: "Textual Study"
 order: 8
 image: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?auto=format&fit=crop&w=900&q=85"
 excerpt: "A sample entry demonstrating the cover and reading layout. Replace this text with your essay."
+draft: true
 ---
 
 # A note before beginning

@@ -15,6 +15,7 @@ keywords:
   - IPO
   - Investment Thesis
   - Unconvinced
+image: /images/finanace/ANT_initial_position/header.png
 ---
 
 29 Oct 2026 - **Anthropic** filed its S-1 with the SEC on 26th October. As expected from an S-1, the 318-page-long document consists of a prospectus which includes Management’s Discussion and Analysis (MD&A), financial statements (FS), audit opinions, and footnotes among other stuff. The following article is the product of an analysis of the provided material. It questions whether the company would be able to meet the financial requirements it has agreed to based on the limited material provided; The material is unable to convince the analyst. 

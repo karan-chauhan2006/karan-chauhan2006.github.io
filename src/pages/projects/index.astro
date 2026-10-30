@@ -2,9 +2,36 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import {getCollection} from 'astro:content';
 import '../../styles/section-search.css';
-const sampleProjects=[{title:'Career Agent',category:'AUTOMATION',tags:['Python','SQLite','Automation'],image:'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85',text:'A local-first tool for discovering roles and preparing tailored applications.'},{title:'Valuation Model',category:'FINANCE',tags:['DCF','Equity Research'],image:'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=85',text:'Thinking through financial statements, forecasts, and company valuation.'},{title:'The Algebraic Picture',category:'MATHEMATICS',tags:['Algebra','Writing'],image:'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=900&q=85',text:'An interconnected exposition of algebra from sets to structural constructions.',href:'/mathematics/algebraic-picture/'},{title:'Future Projects',category:'EXPERIMENTS',tags:['Ideas','In progress'],image:'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=85',text:'A place for experiments, prototypes, and things not yet finished.'}];
+const sampleProjects=[
+    {title:'Career Agent',
+    category:'AUTOMATION',
+    tags:['Python','SQLite','Automation'],
+    image:'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85',
+    text:'A local-first tool for discovering roles and preparing tailored applications.',
+    draft: true},
+    {title:'Valuation Model',
+    category:'FINANCE',
+    tags:['DCF','Equity Research'],
+    image:'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=85',
+    text:'Thinking through financial statements, forecasts, and company valuation.',
+    draft: true},
+    {title:'The Algebraic Picture',
+    category:'MATHEMATICS',
+    tags:['Algebra','Writing'],
+    image:'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=900&q=85',
+    text:'An interconnected exposition of algebra from sets to structural constructions.',
+    href:'/mathematics/algebraic-picture/',
+    draft: true},
+    {title:'Future Projects',
+    category:'EXPERIMENTS',
+    tags:['Ideas','In progress'],
+    image:'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=85',
+    text:'A place for experiments, prototypes, and things not yet finished.',
+    draft: true}
+    ];
 const added=(await getCollection('projects',({data})=>!data.draft)).sort((a,b)=>a.data.order-b.data.order).map(p=>({title:p.data.title,category:p.data.category,tags:p.data.tags,image:p.data.image||'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=85',text:p.data.summary,href:`/projects/${p.id}/`}));
-const projects=[...sampleProjects,...added];
+const projects = [...sampleProjects, ...added]
+  .filter(p => !p.draft);;
 ---
 <BaseLayout title="Projects" theme="projects">
     <section class="projects-head">

@@ -6,6 +6,7 @@ category: "Epistemology"
 order: 3
 typeVariant: "mint"
 excerpt: "A sample entry demonstrating the cover and reading layout. Replace this text with your essay."
+draft: true
 ---
 
 # A note before beginning

@@ -11,6 +11,7 @@ layout: "feature"
 rotation: "-3deg"
 inkRotation: "-5deg"
 order: 6
+draft: true
 ---
 
 > **Sample digression:** Replace the text below with your own writing before publication.

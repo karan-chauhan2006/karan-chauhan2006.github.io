@@ -4,6 +4,7 @@ title: "Introduction"
 chapter: 1
 section: "Beginnings"
 description: "An introduction to The Algebraic Picture."
+draft: true
 ---
 
 # My First Real Chapter

@@ -1,4 +1,17 @@
+
 ---
 import MathematicsBook from '../../../components/MathematicsBook.astro';
+import { getCollection } from 'astro:content';
+
+const chapters = (
+  await getCollection('mathematics', ({ data }) => !data.draft)
+).sort((a, b) => a.data.chapter - b.data.chapter);
+
+const firstChapter = chapters[0];
 ---
-<MathematicsBook chapter="introduction" />
+
+{firstChapter ? (
+  <MathematicsBook slug={firstChapter.id} />
+) : (
+  <p>No chapters have been published yet.</p>
+)}
