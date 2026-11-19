@@ -1,0 +1,14 @@
+\documentclass[border=5pt]{standalone}
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}
+	{G\times G} &&& {H\times H} \\
+	\\
+	\\
+	G &&& H
+	\arrow["{\varphi \times \varphi}", from=1-1, to=1-4]
+	\arrow["{\cdot_G}"', from=1-1, to=4-1]
+	\arrow["{\cdot_H}", from=1-4, to=4-4]
+	\arrow["\varphi", from=4-1, to=4-4]
+\end{tikzcd}
+\end{document}
