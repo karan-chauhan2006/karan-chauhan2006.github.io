@@ -69,3 +69,39 @@
   font-style: italic;
   font-size: 23px;
 }
+
+/* The Algebraic Picture: mathematics-first typesetting.
+   Scoped to the book so other pages retain their original visual identity. */
+.math-book-reading .math-md-content {
+  /* Match MathJax's TeX-style glyphs with a Computer Modern-style text face. */
+  font-family: 'KaTeX_Main', 'Times New Roman', serif;
+  font-size: 17px;
+  line-height: 1.75;
+}
+.math-book-reading .math-md-content p,
+.math-book-reading .math-md-content li {
+  line-height: 1.75;
+}
+/* SVG MathJax keeps its own subscript positioning: don't override it. */
+.math-book-reading .math-md-content mjx-container[jax="SVG"] {
+  /* Don't make inline maths bigger than the prose. MathJax handles scripts. */
+  font-size: 1em;
+}
+.math-book-reading .math-md-content mjx-container[jax="SVG"][display="true"] {
+  margin-block: 1.5rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+/* Quiver/TikZ diagrams are vector images: make them legible and center them. */
+.math-book-reading .math-md-content img[src*="The_Algebraic_Picture_assets/"] {
+  display: block;
+  width: min(100%, 31rem);
+  height: auto;
+  margin: 2rem auto;
+}
+@media (max-width: 680px) {
+  .math-book-reading .math-md-content { font-size: 16px; }
+  .math-book-reading .math-md-content img[src*="The_Algebraic_Picture_assets/"] {
+    width: min(100%, 27rem);
+  }
+}
